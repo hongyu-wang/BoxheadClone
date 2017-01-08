@@ -19,7 +19,9 @@ import server.Server;
 import java.security.Key;
 
 public class MyGdxGame extends ApplicationAdapter {
-    float [] sizes ;
+    private float [] sizes ;
+    private float currDeltaTime;
+    private float prevDeltaTime;
     private Texture background;
     private Stage stage;
 	private OrthographicCamera camera;
@@ -53,8 +55,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Server.getCentralServer().write(KeyboardSystem.getJSon());
-        Server.getCentralServer().read();
+		currDeltaTime += Gdx.graphics.getDeltaTime();
+
+		if (currDeltaTime - prevDeltaTime > 1/30f){
+            Server.getCentralServer().write(KeyboardSystem.getJSon());
+            Server.getCentralServer().read();
+            prevDeltaTime = currDeltaTime;
+        }
 
         camera.zoom += KeyboardSystem.getScroll()*.02f;
         camera.position.set(mainPlayer.getX(), mainPlayer.getY(), 0);

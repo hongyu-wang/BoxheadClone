@@ -38,7 +38,7 @@ public class Player extends SubActor {
         super.draw(batch, parentAlpha);
         curFrame.setPosition(getX(), getY());
 
-        curFrame.setCenter(getX()+50, getY()+50);
+        curFrame.setOriginCenter();
         curFrame.setRotation(dir.angle() + 270);
         curFrame.draw(batch);
 

@@ -25,7 +25,9 @@ net.createServer(function (socket) {
   socket.on('data', function (data) {
   	var parsed = JSON.parse(data);
   	parsed['id'] = socket.id;
+	//console.log(parsed);
   	//update the game
+	//process.stdout.write(JSON.stringify(parsed));
   	game = gameScript.updateGame(parsed);
   });
 
@@ -34,15 +36,15 @@ net.createServer(function (socket) {
     clients.splice(socket.id, 1);
   });
   
-  var t = setInterval(broadcast,16.6);
+  var t = setInterval(broadcast,33);
   // Send a message to all clients
   function broadcast() {
     clients.forEach(function (client) {
-    	var jsoned = JSON.stringify(game);
+    	var jsoned = JSON.stringify(game) + "\n";
       	client.write(jsoned);
 
       	// Log it to the server output too
-    	process.stdout.write(jsoned);
+    	//process.stdout.write(jsoned);
     });
     
   }
