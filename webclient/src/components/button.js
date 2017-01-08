@@ -4,7 +4,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 export default class Test extends React.Component {
 	constructor(props) {
 		super(props);
-
 	}
 	render() {
 		return (
