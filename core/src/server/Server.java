@@ -42,17 +42,18 @@ public class Server implements Disposable{
 
     public void write(String str){
         try{
-            out.write(str.getBytes());
+            out.write((str+"\n").getBytes());
         }catch(Exception ignored) {
 
         }
     }
     public void read(){
-//        try{
-//            String line = br.readLine();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try{
+            String line= br.readLine();
+            System.out.println(line);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
