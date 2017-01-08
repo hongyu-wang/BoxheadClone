@@ -71,20 +71,16 @@ function updateGame(gameStateDict){
 	if (keyPressed <= 2){
 
 		if (gameStateDict["up"] === "true"){
-			// increase player pos by 1
 			angle = 90;
 		}
 		else if (gameStateDict["down"] === "true"){
-			// increase player pos by 1
 			angle = 270;
 		}
 		else if (gameStateDict["left"] === "true"){
-			// increase player pos by 1
             angle = 180
 
 		}
 		else if (gameStateDict["right"] === "true"){
-			// increase player pos by 1
 			angle = 0
 		}
 		if (keyPressed === 2){
@@ -116,8 +112,14 @@ function updateGame(gameStateDict){
 
 	// collisions
 	move(gameStateDict["id"])
-	return gameStateDict
+	return clientState
 }
+
+function collision(gameStateDict)
+{
+
+}
+
 
 function move(id)
 {
