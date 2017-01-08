@@ -7,14 +7,17 @@ import Styles from '../css/landing.scss';
 
 export default class Landing extends React.Component {
 	render() {
+		let style = {
+			backgroundColor: "#D50000",
+		}
 		return (
 			
 			<div className={Styles.container}>
 				<AppBar
 					title="Boxhead Clone"
-					titleStyle={{fontSize: "50px", textAlign: "center"}}
+					style={style}
 					showMenuIconButton={false}
-					style={{backgroundColor: "#F06292"}}
+					titleStyle={{fontSize: "50px", textAlign: "center", padding: "20px"}}
 				/>
 				
 				<div className={Styles.truedat}>
