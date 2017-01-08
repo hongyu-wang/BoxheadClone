@@ -7,7 +7,7 @@ var playerSize = 150
 var direction = [];
 var PLAYER1 = new Player("0")
 var PLAYER2 = new Player("1")
-
+var numTerrains = 7;
 PLAYER1.position = [1000, 1000]
 PLAYER1.direction = [0, 1]
 PLAYER1.id = "0"
@@ -117,10 +117,8 @@ function updateGame(gameStateDict){
 	moveBullet()
 	var hitormiss = collision()
 
-	move(gameStateDict["id"])
-
 	if (!hitormiss){
-
+		move(gameStateDict["id"])
 	}
 	player1.x = clientState.players["0"].position[0];
 	player1.y = clientState.players["0"].position[1],
@@ -155,11 +153,10 @@ function updateGame(gameStateDict){
 
 	return extractInfo()
 }
-
 function populateTerrain()
 {
+	
 	var terrainList = []
-
 	terrainList.push({
 		"x": 2000,
 		"y": 0,
@@ -214,6 +211,13 @@ function intersects(rect, rect2) {
              (rect.position[1] + 100) <  rect2.position[1]));
 
             }
+function intersectsTerrain(rect, rect2) {
+    return !( rect.position[0]         > (rect2.x + 20) ||
+             (rect.position[0] + 100 <  rect2.x          ||
+              rect.position[1]           > (rect2.y + 20) ||
+             (rect.position[1] + 100) <  rect2.y));
+
+            }
 
 function collision(gameStateDict)
 {
@@ -237,6 +241,19 @@ function collision(gameStateDict)
 			hit = true
 		}
 
+	}
+
+	for (var i = 0; i < numTerrains; i++)
+	{
+		if (intersectsTerrain(clientState.players[0], terrain.terList[i]))
+		{
+			hit = true;
+
+		}
+		else if (intersectsTerrain(clientState.players[1], terrain.terList[i]))
+		{
+			hit = true
+		}
 	}
 	return hit;
 }
