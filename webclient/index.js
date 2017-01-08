@@ -12,27 +12,29 @@ net.createServer(function (socket) {
 
   // Put this new client in the list
   clients.push(socket);
+  socket.id = clients.indexOf(socket);
 
   // Send a nice welcome message and announce
   socket.write("Welcome " + socket.name + "\n");
-  broadcast(socket.name + " joined the chat\n", socket);
+  broadcast(socket.name + " joined the game\n", socket);
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-    broadcast(socket.name + "> " + data, socket);
+  	var parsed = JSON.parse(data);
+  	updateGame(parsed);
+  	//broadcast(updated, socket);
   });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
-    clients.splice(clients.indexOf(socket), 1);
-    broadcast(socket.name + " left the chat.\n");
+    clients.splice(socket.id, 1);
+    //broadcast(socket.name + " left the game.\n");
   });
   
+  var t = setInterval(broadcast,16.6);
   // Send a message to all clients
-  function broadcast(message, sender) {
+  function broadcast() {
     clients.forEach(function (client) {
-      // Don't want to send it to sender
-      if (client === sender) return;
       client.write(message);
     });
     // Log it to the server output too
