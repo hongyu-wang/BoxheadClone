@@ -30,7 +30,7 @@ var player1 = {};
 var player2 ={};
 var terrain = {};
 var bulletarray = {};
-
+populateTerrain()
 function bulletObj(){
 	var position;
 	var angle;
@@ -150,7 +150,7 @@ function updateGame(gameStateDict){
 		bulletarray : allBullets
 	}
 
-	populateTerrain()
+	
 
 	return extractInfo()
 }
@@ -207,10 +207,10 @@ function populateTerrain()
 }
 
 function intersects(rect) {
-    return !( rect.location[0]         > (this.location[0] + this.20) || 
+    return !( rect.location[0]         > (this.location[0] + 20) || 
              (rect.location[0] + 100 <  this.location[0]          || 
-              rect.location[1]           > (this.location[1] + this.20) ||
-             (rect.location[1] + 100) <  this.location[1]);
+              rect.location[1]           > (this.location[1] + 20) ||
+             (rect.location[1] + 100) <  this.location[1]));
 
             }
 
@@ -225,12 +225,14 @@ function collision(gameStateDict)
 		if (clientState.bulletsOnScreen[i].intersects(clientState.players[0]))
 		{
 			clientState.players[0].health--;
+			console.log("Player 1 has been hit. Current HP: " + clientState.players[0].health)
 			hit = true;
 			
 		}
 		else if (clientState.bulletsOnScreen[i].intersects(clientState.players[1]))
 		{
 			clientState.players[1].health--;
+			console.log("Player 2 has been hit. Current HP: " + clientState.players[1].health)
 			hit = true
 		}
 
