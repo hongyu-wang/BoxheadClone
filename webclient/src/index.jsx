@@ -12,8 +12,9 @@ if (module && module.hot) {
     render(
       <AppContainer>
 		<MuiThemeProvider>
-        <App/>
-    	</MuiThemeProvider>  
+        	<App/>
+        </MuiThemeProvider>
+        
       </AppContainer>,
       document.querySelector("#app")
     );

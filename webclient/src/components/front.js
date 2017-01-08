@@ -3,7 +3,10 @@ import AppBar from 'material-ui/AppBar';
 import Test from './button';
 import Paper from 'material-ui/Paper';
 import Styles from '../css/landing.scss';
-import CircularProgress from 'material-ui/CircularProgress'
+import CircularProgress from 'material-ui/CircularProgress';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+
 
 export default class Landing extends React.Component {
 	constructor(props) {
@@ -12,11 +15,20 @@ export default class Landing extends React.Component {
 			inQueue: false
 		};
 		this.handleStart = this.handleStart.bind(this);
+		this.handleDownload = this.handleDownload.bind(this);
+	}
+    getChildContext() {
+	    return { muiTheme: getMuiTheme(baseTheme) };
 	}
 	handleStart() {
 		this.setState(prevState => ({
 			inQueue: !prevState.inQueue
 		}));
+		// go in queue
+	}
+	handleDownload() {
+		var newTab = window.open("http://google.ca", "_blank");
+		newTab.focus();
 	}
 	render() {
 		let queueMessage = null;
@@ -39,8 +51,8 @@ export default class Landing extends React.Component {
 				<div className={Styles.truedat}>
 					<img src="http://i.imgur.com/WereBMG.png" alt="box" className={Styles.image}/>
 					<div className={Styles.first}>
-						<Test name="Download" style={showDL}/>
-		    			<Test name={startMsg} style={{"margin-left": "5%"}}  onClick={this.handleStart}/>
+						<Test name="Download" style={showDL} onClick={this.handleDownload}/>
+		    			<Test name={startMsg} style={{"margin-left": "5%"}}  onClick={this.handleStart} href={null}/>
 		    		</div>
 		    		{queueMessage}
 		    		{queueSpinningThing}
@@ -52,8 +64,11 @@ export default class Landing extends React.Component {
 
  					<p>Download the game, and press 'Start' to queue up and find an opponent to play against.</p>
  				</Paper>
-
 			</div>	
 		);
 	}
+};
+
+Landing.childContextTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
 };
