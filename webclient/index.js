@@ -5,7 +5,9 @@ var gameScript = require('./gameScript.js');
 
 // Keep track of the chat clients
 var clients = [];
-var game = gameScript.clientState;
+var p1 = {}, 
+	p2 = {},
+	bullets = {};
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -18,9 +20,12 @@ net.createServer(function (socket) {
   socket.setNoDelay(true)
   socket.id = clients.indexOf(socket);
 
-  // Send a nice welcome message and announce
-  socket.write("Welcome " + socket.name + "\n");
-  broadcast(socket.name + " joined the game\n", socket);
+  // Init
+  var init = {
+  	"id": socket.id,
+  	"terList": gameScript.terrain
+  }
+  socket.write(JSON.stringify(init));
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
@@ -28,27 +33,32 @@ net.createServer(function (socket) {
   	parsed['id'] = socket.id;
 	//console.log(parsed);
   	//update the game
-  	game = gameScript.updateGame(parsed);
-
+  	gameScript.updateGame(parsed);
 	//process.stdout.write(JSON.stringify(parsed));
 	//process.stdout.write(JSON.stringify(game));
   });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
-    clients.splice(socket.id, 1);
+  	clients.splice(socket.id, 1);
   });
 
   var t = setInterval(broadcast,100);
   // Send a message to all clients
   function broadcast() {
-    clients.forEach(function (client) {
+  	p1 = gameScript.player1;
+  	p2 = gameScript.player2;
+  	bullets = gameScript.bulletarray;
 
-    	var jsoned = JSON.stringify(game) + "\n";
+  	clients.forEach(function (client) {
+
+  		var jsoned = JSON.stringify(p1) + "\n" + 
+  					 JSON.stringify(p2) + "\n" +
+  					 JSON.stringify(bullets) + "\n";
 
     	//process.stdout.write(jsoned)
 
-      client.write(jsoned, "UTF-8")
+    	client.write(jsoned, "UTF-8")
 
       	// Log it to the server output too
     	//process.stdout.write(jsoned);
@@ -60,3 +70,5 @@ net.createServer(function (socket) {
 
 // Put a friendly message on the terminal of the server.
 console.log("Chat server running at port 5000\n");
+
+//module.exports.create = create;
