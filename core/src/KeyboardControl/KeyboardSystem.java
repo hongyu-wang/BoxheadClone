@@ -60,11 +60,20 @@ public class KeyboardSystem implements InputProcessor{
         if (keycode == 62){
             controlModel.setSpace("true");
         }
+        if (keycode == 33){
+            scroll = -1;
+        }
+        if (keycode == 45){
+            scroll = 1;
+        }
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        //e = 33 q = 45
+        scroll = 0;
+
         if (keycode == 19){
             controlModel.setUp("false");
         }
@@ -110,7 +119,6 @@ public class KeyboardSystem implements InputProcessor{
 
     @Override
     public boolean scrolled(int amount) {
-        scroll = amount/Math.abs(amount);
         return false;
     }
 }

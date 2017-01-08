@@ -15,6 +15,7 @@ import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP_PINGPONG;
  */
 public class Player extends SubActor {
     private int id;
+    private static final float MAX_HP = 10;
     private Vector2 dir;
     private float hp;
     private Animation<TextureRegion> animation;
