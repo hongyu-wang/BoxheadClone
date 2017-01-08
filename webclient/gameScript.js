@@ -32,15 +32,9 @@ function initGame(gameStateDict){
 	var PLAYER2 = new Player(gameStateDict["id2"])
 
 	delete clientState.players["player1ID"];
-	clientState.players.push({
-		key: gameStateDict["id"],
-		value: PLAYER1
-	})
+	clientState.players.gameStateDict["id"] = PLAYER1;
 	delete clientState.players["player2ID"];
-	clientState.players.push({
-		key: gameStateDict["id2"],
-		value: PLAYER2
-	})
+	clientState.players.gameStateDict["id2"] = PLAYER2;
 
 	PLAYER1.position = [1000, 1000]
 	PLAYER1.direction = [0, 1]
@@ -149,11 +143,9 @@ function extractInfo(){
 	}
 
 	for (var i = 0; i < clientState.bulletsOnScreen.length; i++)
-	{
-		jsomInfo.push({
-			key : "bullet" + i,
-			value : clientState.bulletsOnScreen[i].position
-		})
+	{	
+		var key = "bullet" + i;
+		jsomInfo.key = clientState.bulletsOnScreen[i].position;
 	}
 
 	return jsomInfo
