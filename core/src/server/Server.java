@@ -7,8 +7,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  *
@@ -19,6 +18,7 @@ public class Server implements Disposable{
     private OutputStream out;
     private InputStream in;
     private Socket client;
+    private BufferedReader br;
     private static Server centralServer;
     public static Server getCentralServer(){
         if (centralServer == null){
@@ -37,6 +37,7 @@ public class Server implements Disposable{
         client = Gdx.net.newClientSocket(Net.Protocol.TCP, "localhost", 5000, new SocketHints());
         out = client.getOutputStream();
         in = client.getInputStream();
+        br = new BufferedReader(new InputStreamReader(in));
     }
 
     public void write(String str){
@@ -46,7 +47,13 @@ public class Server implements Disposable{
 
         }
     }
-
+    public void read(){
+        try{
+            String line = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

@@ -3,6 +3,8 @@ package KeyboardControl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.mygdx.boxhead.MyGdxGame;
 import server.Model.ControlModel;
 
 /**
@@ -30,7 +32,7 @@ public class KeyboardSystem implements InputProcessor{
 
     public static String getJSon(){
         Json json = new Json();
-
+        json.setOutputType(JsonWriter.OutputType.json);
         return json.toJson(keyboardSystem.controlModel);
     }
 
@@ -104,6 +106,7 @@ public class KeyboardSystem implements InputProcessor{
 
     @Override
     public boolean scrolled(int amount) {
+
         return false;
     }
 }
