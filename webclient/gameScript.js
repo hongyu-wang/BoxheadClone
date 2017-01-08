@@ -143,7 +143,7 @@ function updateGame(gameStateDict){
 		allBullets.push({
 			x : clientState.bulletsOnScreen[i].position[0],
 			y : clientState.bulletsOnScreen[i].position[1],
-			id : "bullet" + i
+			id : i
 		})
 	} 
 	bulletarray = {
