@@ -19,15 +19,22 @@ PLAYER2.direction = [0, -1]
 var clientState = {
 	players : {
 		"0": PLAYER1,
-		"1": PLAYER2
+		"1": PLAYER2,
+		1 : PLAYER1,
+		2 : PLAYER2
 	},
 	bulletsOnScreen : [],
 }
 
+var player1 = {};
+var player2 ={};
+var terrain = {};
+var bulletarray = {};
 
 function bulletObj(){
 	var position;
 	var angle;
+
 }
 
 function Player(ID)
@@ -104,24 +111,131 @@ function updateGame(gameStateDict){
 		}
 
 	moveBullet()
+	var hitormiss = collision()
+	if (!hitormiss){
 
-	// collisions
-	move(gameStateDict["id"])
+		move(gameStateDict["id"])
+
+	}
+	player1 = {
+		x: clientState.players["0"].position[0],
+		y: clientState.players["0"].position[1],
+		dirx : clientState.players["0"].direction[0],
+		diry : clientState.players["0"].direction[1],
+		id : "0",
+		hp: clientState.players["0"].health
+
+	}
+
+	player2 = {
+		x: clientState.players["1"].position[0],
+		y: clientState.players["1"].position[1],
+		dirx : clientState.players["1"].direction[0],
+		diry : clientState.players["1"].direction[1],
+		id : "1",
+		hp: clientState.players["1"].health
+
+	}
+
+	var allBullets = []
+	for (var i = 0; i < clientState.bulletsOnScreen.length; i++)
+	{
+		allBullets.push({
+			x : clientState.bulletsOnScreen[i].position[0],
+			y : clientState.bulletsOnScreen[i].position[1],
+			id : "bullet" + i
+		})
+	} 
+	bulletarray = {
+		bulletarray : allBullets
+	}
+
+	populateTerrain()
+
 	return extractInfo()
 }
+
+function populateTerrain()
+{
+	var terrainList = []
+
+	terrainList.push({
+		x: 2000,
+		y: 0,
+		width: 5,
+		height: 6000
+	})
+	terrainList.push({
+		x: 1000,
+		y: 2000,
+		width: 500,
+		height: 5
+	})
+	terrainList.push({
+		x: 1500,
+		y: 4000,
+		width: 200,
+		height: 5
+	})
+	terrainList.push({
+		x: 4000,
+		y: 350,
+		width: 340,
+		height: 300
+	})
+	terrainList.push({
+		x: 3000,
+		y: 7000,
+		width: 900,
+		height: 50
+	})
+	terrainList.push({
+		x: 100,
+		y: 9000,
+		width: 700,
+		height: 25
+	})
+	terrainList.push({
+		x: 9000,
+		y: 100,
+		width: 700,
+		height: 25
+	})
+	terrain = {
+		terList : terrainList 
+	}
+}
+
+function intersects(rect) {
+    return !( rect.location[0]         > (this.location[0] + this.20) || 
+             (rect.location[0] + 100 <  this.location[0]          || 
+              rect.location[1]           > (this.location[1] + this.20) ||
+             (rect.location[1] + 100) <  this.location[1]);
+
+            }
 
 function collision(gameStateDict)
 {
 	var player1POS = clientState.players["0"].position
 	var player2POS = clientState.players["1"].position
+	var hit = false;
 
 	for (var i = 0; i < clientState.bulletsOnScreen.length; i++)
 	{
-		if (clientState.bulletsOnScreen[i].position[0])
+		if (clientState.bulletsOnScreen[i].intersects(clientState.players[0]))
 		{
-
+			clientState.players[0].health--;
+			hit = true;
+			
 		}
+		else if (clientState.bulletsOnScreen[i].intersects(clientState.players[1]))
+		{
+			clientState.players[1].health--;
+			hit = true
+		}
+
 	}
+	return hit;
 }
 
 function extractInfo(){
@@ -238,23 +352,8 @@ function getBulletTravel(bullet)
 
 module.exports.clientState = clientState;
 module.exports.updateGame = updateGame;
+module.exports.terrain = terrain;
+module.exports.player1 = player1;
+module.exports.player2 = player2;
+module.exports.bulletarray = bulletarray
 
-/*var PLAYER1 = new Player("gameStateDict[id]")
-PLAYER1.position = [1000, 9000]
-PLAYER1.angle = 90
-var PLAYER2 = new Player("gameStateDict[id2]")
-var bullet1 = new bulletObj()
-bullet1.position = [4,3]
-bullet1.angle = 45
-console.log(PLAYER1.position)
-clientState = {
-	players : {
-		"gameStateDict[id]": PLAYER1,
-		"gameStateDict[id]": PLAYER2
-	},
-	bulletsOnScreen : [bullet1],
-	barriers : []
-}
-move("gameStateDict[id]")
-
-console.log(PLAYER1.position)*/
