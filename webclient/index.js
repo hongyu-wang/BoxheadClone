@@ -15,7 +15,7 @@ net.createServer(function (socket) {
 
   // Put this new client in the list
   clients.push(socket);
-  id = clients.indexOf(socket);
+  socket.id = clients.indexOf(socket);
 
   // Send a nice welcome message and announce
   socket.write("Welcome " + socket.name + "\n");
@@ -23,7 +23,7 @@ net.createServer(function (socket) {
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-  	data['id'] = socket.id;
+  	data['id'+ socket.id + 1] = socket.id;
   	var parsed = JSON.parse(data);
   	//update the game
   	game = gameScript.updateGame(parsed);
