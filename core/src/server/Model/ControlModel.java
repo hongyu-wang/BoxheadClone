@@ -10,50 +10,49 @@ import com.badlogic.gdx.utils.JsonWriter;
  * Created by hongy on 1/7/2017.
  */
 public class ControlModel {
-    private boolean up;
-    private boolean down;
-    private boolean left;
-    private boolean right;
-    private boolean space;
+    private String up;
+    private String down;
+    private String left;
+    private String right;
+    private String space;
 
-
-    public boolean isUp() {
+    public String getUp() {
         return up;
     }
 
-    public void setUp(boolean up) {
+    public void setUp(String up) {
         this.up = up;
     }
 
-    public boolean isDown() {
+    public String getDown() {
         return down;
     }
 
-    public void setDown(boolean down) {
+    public void setDown(String down) {
         this.down = down;
     }
 
-    public boolean isLeft() {
+    public String getLeft() {
         return left;
     }
 
-    public void setLeft(boolean left) {
+    public void setLeft(String left) {
         this.left = left;
     }
 
-    public boolean isRight() {
+    public String getRight() {
         return right;
     }
 
-    public void setRight(boolean right) {
+    public void setRight(String right) {
         this.right = right;
     }
 
-    public boolean isSpace() {
+    public String getSpace() {
         return space;
     }
 
-    public void setSpace(boolean space) {
+    public void setSpace(String space) {
         this.space = space;
     }
 }
