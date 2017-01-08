@@ -2,13 +2,11 @@ package server;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.Disposable;
 
-import java.awt.peer.DialogPeer;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -33,6 +31,14 @@ public class Server implements Disposable{
         client = Gdx.net.newClientSocket(Net.Protocol.TCP, "localhost", 5000, new SocketHints());
         out = client.getOutputStream();
         in = client.getInputStream();
+    }
+
+    public void write(String str){
+        try{
+            out.write(str.getBytes());
+        }catch(Exception ignored) {
+
+        }
     }
 
 
