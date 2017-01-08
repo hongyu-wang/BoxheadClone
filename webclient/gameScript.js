@@ -5,17 +5,28 @@ var angle = 0;
 var bulletSize = 40
 var playerSize = 150
 var direction = [];
+var PLAYER1 = new Player("0")
+var PLAYER2 = new Player("1")
+
+PLAYER1.position = [1000, 1000]
+PLAYER1.direction = [0, 1]
+PLAYER1.id = "0"
+PLAYER1.heatlh = 10
+PLAYER2.heatlh = 10
+PLAYER2.position = [9000, 9000]
+PLAYER2.id = "1"
+PLAYER2.direction = [0, -1]
 var clientState = {
 	players : {
-		"player1ID": "blank",
-		"player2ID": "blank"
+		"0": PLAYER1,
+		"1": PLAYER2
 	},
 	bulletsOnScreen : [],
 }
 
 
 function bulletObj(){
-	var position;
+	var position; 
 	var angle;
 }
 
@@ -27,39 +38,17 @@ function Player(ID)
 	var heatlh = 10	 
 }
 
-function initGame(gameStateDict){
-	var PLAYER1 = new Player(gameStateDict["id"])
-	var PLAYER2 = new Player(gameStateDict["id2"])
-
-	delete clientState.players["player1ID"];
-	clientState.players.gameStateDict["id"] = PLAYER1;
-	delete clientState.players["player2ID"];
-	clientState.players.gameStateDict["id2"] = PLAYER2;
-
-	PLAYER1.position = [1000, 1000]
-	PLAYER1.direction = [0, 1]
-	PLAYER1.id = gameStateDict[id]
-	PLAYER1.heatlh = 10
-	PLAYER2.heatlh = 10
-	PLAYER2.position = [9000, 9000]
-	PLAYER2.id = gameStateDict[id2]
-	PLAYER2.direction = [0, -1]
-}
-
 function updateGame(gameStateDict){
 	var keysPressed = 0;
 	var keys = Object.keys(gameStateDict)
 	var playerIDs = Object.keys(clientState.players)
-	if (playerIDs[0] = "player1ID"){
-		initGame(gameStateDict)
-	}
 
 	for (var i = 0; i < 4; i++){
 		if (gameStateDict[keys[i]] === "true"){
 		  keysPressed++;
 		}
 	}
-	if (keyPressed <= 2){
+	if (keysPressed <= 2){
 
 		if (gameStateDict["up"] === "true"){
 			angle = 90;
@@ -77,7 +66,7 @@ function updateGame(gameStateDict){
 			angle = 0
 			direction = [1, 0]
 		}
-		if (keyPressed === 2){
+		if (keysPressed === 2){
 			if (gameStateDict["right"] === "true" && gameStateDict["up"] === "true"){
 			  angle = 45;
 			  direction = [1, 1];
@@ -102,7 +91,7 @@ function updateGame(gameStateDict){
 	   }
 
 	}
-	if (gameStateDict[space] === "true"){
+	if (gameStateDict["space"] === "true"){
 			var newBullet = new bulletObj()
 			newBullet.position = clientState.players[gameStateDict["id"]].position
 			newBullet.angle = angle
@@ -118,9 +107,8 @@ function updateGame(gameStateDict){
 
 function collision(gameStateDict)
 {
-	var playerIDS = Object.keys(clientState.players)
-	var player1POS = clientState.players[playerIDS[0]].position
-	var player2POS = clientState.players[playerIDS[1]].position
+	var player1POS = clientState.players["0"].position
+	var player2POS = clientState.players["1"].position
 
 	for (var i = 0; i < clientState.bulletsOnScreen.length; i++)
 	{
@@ -132,14 +120,13 @@ function collision(gameStateDict)
 }
 
 function extractInfo(){
-	var playerIDS = Object.keys(clientState.players)
 	var jsomInfo = {
-		Player1Pos : clientState.players[playerIDS[0]].position,
-		PLayer2Pos : clientState.players[playerIDS[1]].position,
-		Player1Direction : clientState.players[playerIDS[0]].direction,
-		Player2Direction : clientState.players[playerIDS[1]].direction,
-		Player1Health : clientState.players[playerIDS[0]].heatlh,
-		Player2Health : clientState.players[playerIDS[1]].heatlh,
+		Player1Pos : clientState.players["0"].position,
+		PLayer2Pos : clientState.players["1"].position,
+		Player1Direction : clientState.players["0"].direction,
+		Player2Direction : clientState.players["1"].direction,
+		Player1Health : clientState.players["0"].heatlh,
+		Player2Health : clientState.players["1"].heatlh,
 	}
 
 	for (var i = 0; i < clientState.bulletsOnScreen.length; i++)
@@ -153,6 +140,7 @@ function extractInfo(){
 
 function move(id)
 {
+	console.log(id)
 	var playerPOS = clientState.players[id].position
 	if (clientState.players[id].direction === [0, 1])
 	{
