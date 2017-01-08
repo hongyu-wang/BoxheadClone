@@ -22,11 +22,17 @@ public class Server implements Disposable{
     private static Server centralServer;
     public static Server getCentralServer(){
         if (centralServer == null){
-            centralServer = new Server();
+            try {
+                centralServer = new Server();
+            }catch (Exception e){
+                centralServer = new Server("xdee");
+            }
         }
         return centralServer;
     }
+    private Server(String s){
 
+    }
     private Server(){
         client = Gdx.net.newClientSocket(Net.Protocol.TCP, "localhost", 5000, new SocketHints());
         out = client.getOutputStream();

@@ -5,8 +5,8 @@ package server.Model;
  */
 public class PlayerModel extends DefaultModel{
     private float hp;
-    private int[] dir;
-    private int[] pos;
+    private float [] dir;
+    private float [] pos;
 
     public float getHp() {
         return hp;
@@ -16,19 +16,20 @@ public class PlayerModel extends DefaultModel{
         this.hp = hp;
     }
 
-    public int[] getDir() {
+    public float[] getDir() {
+
         return dir;
     }
 
-    public void setDir(int[] dir) {
+    public void setDir(float [] dir) {
         this.dir = dir;
     }
 
-    public int[] getPos() {
+    public float[] getPos() {
         return pos;
     }
 
-    public void setPos(int[] pos) {
+    public void setPos(float [] pos) {
         this.pos = pos;
     }
 }
