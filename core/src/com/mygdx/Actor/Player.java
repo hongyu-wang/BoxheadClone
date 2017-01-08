@@ -11,24 +11,24 @@ import java.lang.reflect.*;
  */
 public class Player extends Actor {
     private int id;
-    private Vector2 dir;
-    private Vector2 pos;
+    private int[] dir;
+    private int[] pos;
     private float hp;
 
-    public Vector2 getDir() {
+    public int[] getDir() {
         return dir;
     }
 
     public void setDir(int[] dir) {
-        this.dir = new Vector2(dir[0], dir[1]);
+        this.dir = dir;
     }
 
-    public Vector2 getPos() {
+    public int[] getPos() {
         return pos;
     }
 
     public void setPos(int[] pos) {
-        this.pos = new Vector2(pos[0], pos[1]);
+        this.pos = pos;
     }
 
     public float getHp() {
@@ -40,30 +40,9 @@ public class Player extends Actor {
     }
 
     public void updateFromModel(PlayerModel model) {
-        Method[] methods = model.getClass().getMethods();
-
-        for(Method method : methods) {
-            if (isSetter(method)) {
-                try {
-                    method.invoke(this, getGetterFromSetter(method, model));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-    }
-
-    public static Method getGetterFromSetter (Method setter, PlayerModel model) {
-        Method getter = null;
-        for (Method method : model.getClass().getMethods()) {
-            if (method.getName().startsWith("set") && setter.getName().substring(3).equals(method.getName().substring(3))) {
-                getter = method;
-            }
-        }
-        return getter;
+        this.setHp(model.getHp());
+        this.setPos(model.getPos());
+        this.setDir(model.getDir());
     }
 
     public static void main(String[] args) {
@@ -75,9 +54,9 @@ public class Player extends Actor {
 
         p.updateFromModel(test);
 
+        System.out.println(p.getDir());
         System.out.println(p.getHp());
-        System.out.println(p.getDir().toString());
-        System.out.println(p.getPos().toString());
+        System.out.println(p.getPos());
     }
 
     public static boolean isGetter(Method method){
