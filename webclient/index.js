@@ -23,8 +23,8 @@ net.createServer(function (socket) {
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
-  	data['id'+ socket.id + 1] = socket.id;
   	var parsed = JSON.parse(data);
+  	parsed['id'] = socket.id;
   	//update the game
   	game = gameScript.updateGame(parsed);
   });
