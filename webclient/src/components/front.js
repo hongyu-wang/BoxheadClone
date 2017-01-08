@@ -21,9 +21,12 @@ export default class Landing extends React.Component {
 	render() {
 		let queueMessage = null;
 		let queueSpinningThing = null;
+		let startMsg = "Start";
+		let showDL = this.state.inQueue ? {"margin-right": "5%", "display": "none"} : {"margin-right": "5%"};
 		if (this.state.inQueue) {
 			queueMessage = <p style={{fontSize: "40px", marginBottom: "50px", marginTop: "0px"}}> You're in queue </p>;
 			queueSpinningThing = <CircularProgress size={60} thickness={7} className={Styles.queue}/>;
+			startMsg = "Cancel";
 		}
 		return (
 			<div className={Styles.container}>
@@ -36,8 +39,8 @@ export default class Landing extends React.Component {
 				<div className={Styles.truedat}>
 					<img src="http://i.imgur.com/WereBMG.png" alt="box" className={Styles.image}/>
 					<div className={Styles.first}>
-						<Test name="Download" style={{"margin-right": "5%"}}/>
-		    			<Test name="Start" style={{"margin-left": "5%"}}  onClick={this.handleStart}/>
+						<Test name="Download" style={showDL}/>
+		    			<Test name={startMsg} style={{"margin-left": "5%"}}  onClick={this.handleStart}/>
 		    		</div>
 		    		{queueMessage}
 		    		{queueSpinningThing}
