@@ -9,7 +9,7 @@ export default class Landing extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { 
-			inQueue: true
+			inQueue: false
 		};
 		this.handleStart = this.handleStart.bind(this);
 	}
@@ -25,7 +25,7 @@ export default class Landing extends React.Component {
 		let showDL = this.state.inQueue ? {"margin-right": "5%", "display": "none"} : {"margin-right": "5%"};
 		if (this.state.inQueue) {
 			queueMessage = <p style={{fontSize: "40px", marginBottom: "50px", marginTop: "0px"}}> You're in queue </p>;
-			queueSpinningThing = <CircularProgress size={60} thickness={7} className={Styles.queue}/>;
+			queueSpinningThing = <CircularProgress size={60} thickness={7} className={Styles.queue} color={"#D50000"}/>;
 			startMsg = "Cancel";
 		}
 		return (
