@@ -12,7 +12,7 @@ import server.Model.ControlModel;
  */
 public class KeyboardSystem implements InputProcessor{
     private static KeyboardSystem keyboardSystem;
-
+    private static int scroll;
     private ControlModel controlModel;
     public static void init(){
         keyboardSystem = new KeyboardSystem();
@@ -27,13 +27,17 @@ public class KeyboardSystem implements InputProcessor{
         controlModel.setLeft("false");
         controlModel.setDown("false");
         controlModel.setRight("false");
-
+        scroll = 0;
     }
 
     public static String getJSon(){
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         return json.toJson(keyboardSystem.controlModel);
+    }
+
+    public static int getScroll() {
+        return scroll;
     }
 
 
@@ -106,7 +110,7 @@ public class KeyboardSystem implements InputProcessor{
 
     @Override
     public boolean scrolled(int amount) {
-
+        scroll = amount/Math.abs(amount);
         return false;
     }
 }

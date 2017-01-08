@@ -48,11 +48,11 @@ public class Server implements Disposable{
         }
     }
     public void read(){
-        try{
-            String line = br.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try{
+//            String line = br.readLine();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 

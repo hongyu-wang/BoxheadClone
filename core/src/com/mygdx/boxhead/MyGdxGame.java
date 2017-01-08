@@ -55,6 +55,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Server.getCentralServer().write(KeyboardSystem.getJSon());
         Server.getCentralServer().read();
+
+        camera.zoom += KeyboardSystem.getScroll()*.02f;
         camera.position.set(mainPlayer.getX(), mainPlayer.getY(), 0);
         camera.update();
         mainPlayer.updateFromModel(playerModel);

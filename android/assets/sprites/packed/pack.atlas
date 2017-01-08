@@ -1,0 +1,27 @@
+
+pack.png
+size: 128,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+sprite_center
+  rotate: false
+  xy: 2, 2
+  size: 100, 139
+  orig: 100, 139
+  offset: 0, 0
+  index: -1
+sprite_left_foot
+  rotate: false
+  xy: 2, 143
+  size: 99, 151
+  orig: 99, 151
+  offset: 0, 0
+  index: -1
+sprite_right_foot
+  rotate: false
+  xy: 2, 296
+  size: 101, 153
+  orig: 101, 153
+  offset: 0, 0
+  index: -1
