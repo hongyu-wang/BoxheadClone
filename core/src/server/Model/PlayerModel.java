@@ -3,16 +3,16 @@ package server.Model;
 /**
  * Created by hongy on 1/7/2017.
  */
-public class PlayerModel {
-    private int hp;
+public class PlayerModel extends DefaultModel{
+    private float hp;
     private int[] dir;
     private int[] pos;
 
-    public int getHp() {
+    public float getHp() {
         return hp;
     }
 
-    public void setHp(int hp) {
+    public void setHp(float hp) {
         this.hp = hp;
     }
 
