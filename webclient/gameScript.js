@@ -1,9 +1,11 @@
-var map = [[]];
-var mapRange = 100;
+var map = [10000, 10000];
+var mapRange = 10000;
 var angle = 0;
 var clientState = {
-	player1 : Player,
-	player2 : Player,
+	players : {
+		"player1ID": "blank",
+		"player2ID": "blank"
+	},
 	bulletsOnScreen : [],
 	barriers : []
 }
@@ -13,15 +15,40 @@ var bullet = {
 	angle : 0
 }
 
-var Player = {
-	id : "0x",
-	position : [0, 0],
-	angle : 0
+function Player(ID)
+{
+    id  = ID
+	position = [0, 0],
+	angle = 0	 
+}
+
+function initGame(gameStateDict){
+	var PLAYER1 = new Player(gameStateDict[id])
+	var PLAYER2 = new Player(gameStateDict[id2])
+
+	delete clientState.players["player1ID"];
+	clientState.players.push({
+		key: id,
+		value: PLAYER1
+	})
+	delete clientState.players["player1ID"];
+	clientState.players.push({
+		key: id,
+		value: PLAYER2
+	})
+
+	PLAYER1.position = [1000, 1000]
+	PLAYER2.position = [9000, 9000]
 }
 
 function updateGame(gameStateDict){
 	var keysPressed = 0;
 	var keys = Object.keys(gameStateDict)
+	var playerIDs = Object.keys(clientState.players)
+	if (playerIDs[0] = "player1ID"){
+		initGame(gameStateDict)
+	}
+
 	for (var i = 0; i < 4; i++){
 		if (gameStateDict[keys[i]] === "true"){
 		  keysPressed++;
