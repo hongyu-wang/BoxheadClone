@@ -1,3 +1,7 @@
+var module.exports = {};
+module.exports.clientState = clientState;
+module.exports.updateGame = updateGame;
+
 var map = [10000, 10000];
 var mapRange = 10000;
 var angle = 0;

@@ -1,8 +1,11 @@
 // Load the TCP Library
-net = require('net');
+var net = require('net');
+var gameScripts = require('./gameScripts.js');
+
 
 // Keep track of the chat clients
 var clients = [];
+var game = gameScripts.clientState;
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -12,7 +15,7 @@ net.createServer(function (socket) {
 
   // Put this new client in the list
   clients.push(socket);
-  socket.id = clients.indexOf(socket);
+  id = clients.indexOf(socket);
 
   // Send a nice welcome message and announce
   socket.write("Welcome " + socket.name + "\n");
@@ -20,25 +23,28 @@ net.createServer(function (socket) {
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
+  	data['id'] = socket.id;
   	var parsed = JSON.parse(data);
-  	updateGame(parsed);
-  	//broadcast(updated, socket);
+  	//update the game
+  	game = gameScripts.updateGame(parsed);
   });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
     clients.splice(socket.id, 1);
-    //broadcast(socket.name + " left the game.\n");
   });
   
   var t = setInterval(broadcast,16.6);
   // Send a message to all clients
   function broadcast() {
     clients.forEach(function (client) {
-      client.write(message);
+    	var jsoned = JSON.stringify(game);
+      	client.write(jsoned);
+
+      	// Log it to the server output too
+    	process.stdout.write(jsoned);
     });
-    // Log it to the server output too
-    process.stdout.write(message)
+    
   }
 
 }).listen(5000);
