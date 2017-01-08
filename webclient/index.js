@@ -5,7 +5,7 @@ var gameScript = require('./gameScript.js');
 
 // Keep track of the chat clients
 var clients = [];
-var p1 = {}, 
+var p1 = {},
 	p2 = {},
 	bullets = {};
 
@@ -23,9 +23,9 @@ net.createServer(function (socket) {
   // Init
   var init = {
   	"id": socket.id,
-  	"terList": gameScript.terrain
+  	"terList": gameScript.terrain["terList"]
   }
-  socket.write(JSON.stringify(init));
+  socket.write(JSON.stringify(init)+"\n");
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {
@@ -34,6 +34,12 @@ net.createServer(function (socket) {
 	//console.log(parsed);
   	//update the game
   	gameScript.updateGame(parsed);
+		p1 = gameScript.player1;
+		p2 = gameScript.player2;
+		bullets = gameScript.bulletArray;
+  	//console.log(gameScript.player1)
+  	//console.log(gameScript.player2)
+  	//console.log(gameScript.bulletarray)
 	//process.stdout.write(JSON.stringify(parsed));
 	//process.stdout.write(JSON.stringify(game));
   });
@@ -46,22 +52,20 @@ net.createServer(function (socket) {
   var t = setInterval(broadcast,100);
   // Send a message to all clients
   function broadcast() {
-  	p1 = gameScript.player1;
-  	p2 = gameScript.player2;
-  	bullets = gameScript.bulletarray;
 
   	clients.forEach(function (client) {
 
-  		var jsoned = JSON.stringify(p1) + "\n" + 
-  					 JSON.stringify(p2) + "\n" +
-  					 JSON.stringify(bullets) + "\n";
+  		var json1 = JSON.stringify(p1) + "\n"
 
+  		var json2 = JSON.stringify(p2) + "\n"
+			var json3 = JSON.stringify(bullets) + "\n"
     	//process.stdout.write(jsoned)
 
-    	client.write(jsoned, "UTF-8")
+    	client.write(json1)
+    	client.write(json2)
+    	client.write(json3)
 
-      	// Log it to the server output too
-    	//process.stdout.write(jsoned);
+
     });
 
   }

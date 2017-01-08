@@ -4,15 +4,31 @@ package server.Model;
  *
  * Created by hongy on 1/8/2017.
  */
-public class BulletModel extends DefaultModel{
+public class BulletModel {
+    private float x, y;
+    private int id;
 
-    private float [] pos;
-
-    public float[] getPos() {
-        return pos;
+    public float getX() {
+        return x;
     }
 
-    public void setPos(float[] pos) {
-        this.pos = pos;
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

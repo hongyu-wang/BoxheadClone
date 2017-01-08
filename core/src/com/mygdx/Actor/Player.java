@@ -52,35 +52,12 @@ public class Player extends SubActor {
 
     }
 
-    public float[] getDir() {
-        return new float[]{dir.x, dir.y};
-    }
-
-    public void setDir(float[] dir) {
-        this.dir = new Vector2(dir[0], dir[1]);
-    }
-
-    public float [] getPos() {
-        return new float[]{getX(), getY()};
-    }
-
-    public void setPos(float[] pos) {
-        setX(pos[0]);
-        setY(pos[1]);
-    }
-
-    public float getHp() {
-        return hp;
-    }
-
-    public void setHp(float hp) {
-        this.hp = hp;
-    }
 
     public void updateFromModel(PlayerModel model) {
-        this.setHp(model.getHp());
-        this.setPos(model.getPos());
-        this.setDir(model.getDir());
+        this.setX(model.getX());
+        this.setY(model.getY());
+        this.dir = new Vector2(model.getDirx(), model.getDiry());
+        this.hp = model.getHp();
     }
 
 
