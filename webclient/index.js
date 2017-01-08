@@ -1,11 +1,11 @@
 // Load the TCP Library
 var net = require('net');
-var gameScripts = require('./gameScripts.js');
+var gameScript = require('./gameScript.js');
 
 
 // Keep track of the chat clients
 var clients = [];
-var game = gameScripts.clientState;
+var game = gameScript.clientState;
 
 // Start a TCP Server
 net.createServer(function (socket) {
@@ -26,7 +26,7 @@ net.createServer(function (socket) {
   	data['id'] = socket.id;
   	var parsed = JSON.parse(data);
   	//update the game
-  	game = gameScripts.updateGame(parsed);
+  	game = gameScript.updateGame(parsed);
   });
 
   // Remove the client from the list when it leaves
