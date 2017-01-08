@@ -1,6 +1,3 @@
-var module.exports = {};
-module.exports.clientState = clientState;
-module.exports.updateGame = updateGame;
 
 var map = [10000, 10000];
 var mapRange = 10000;
@@ -218,6 +215,8 @@ function getBulletTravel(bullet)
 	return bulletPOS;
 }
 
+module.exports.clientState = clientState;
+module.exports.updateGame = updateGame;
 
 /*var PLAYER1 = new Player("gameStateDict[id]")
 PLAYER1.position = [1000, 9000]
