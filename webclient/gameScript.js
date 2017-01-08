@@ -11,8 +11,8 @@ var PLAYER2 = new Player("1")
 PLAYER1.position = [1000, 1000]
 PLAYER1.direction = [0, 1]
 PLAYER1.id = "0"
-PLAYER1.heatlh = 10
-PLAYER2.heatlh = 10
+PLAYER1.health = 10
+PLAYER2.health = 10
 PLAYER2.position = [9000, 9000]
 PLAYER2.id = "1"
 PLAYER2.direction = [0, -1]
@@ -26,7 +26,7 @@ var clientState = {
 
 
 function bulletObj(){
-	var position; 
+	var position;
 	var angle;
 }
 
@@ -35,7 +35,7 @@ function Player(ID)
     var id = ID
 	var position = [0, 0]
 	var direction = []
-	var heatlh = 10	 
+	var health = 10
 }
 
 function updateGame(gameStateDict){
@@ -66,6 +66,7 @@ function updateGame(gameStateDict){
 			angle = 0
 			direction = [1, 0]
 		}
+
 		if (keysPressed === 2){
 			if (gameStateDict["right"] === "true" && gameStateDict["up"] === "true"){
 			  angle = 45;
@@ -87,8 +88,12 @@ function updateGame(gameStateDict){
 			  angle = 45;
 			  direction = [1, 1];
 			}
-			clientState.players[gameStateDict["id"]].direction = direction;
+
+
 	   }
+
+
+	   clientState.players[gameStateDict["id"]].direction = direction;
 
 	}
 	if (gameStateDict["space"] === "true"){
@@ -125,12 +130,12 @@ function extractInfo(){
 		PLayer2Pos : clientState.players["1"].position,
 		Player1Direction : clientState.players["0"].direction,
 		Player2Direction : clientState.players["1"].direction,
-		Player1Health : clientState.players["0"].heatlh,
-		Player2Health : clientState.players["1"].heatlh,
+		Player1Health : clientState.players["0"].health,
+		Player2Health : clientState.players["1"].health,
 	}
 
 	for (var i = 0; i < clientState.bulletsOnScreen.length; i++)
-	{	
+	{
 		var key = "bullet" + i;
 		jsomInfo.key = clientState.bulletsOnScreen[i].position;
 	}
@@ -140,7 +145,6 @@ function extractInfo(){
 
 function move(id)
 {
-	console.log(id)
 	var playerPOS = clientState.players[id].position
 	if (clientState.players[id].direction === [0, 1])
 	{

@@ -56,12 +56,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		currDeltaTime += Gdx.graphics.getDeltaTime();
-
-		if (currDeltaTime - prevDeltaTime > 1/30f){
+        if (currDeltaTime - prevDeltaTime > 1/30f) {
             Server.getCentralServer().write(KeyboardSystem.getJSon());
-            Server.getCentralServer().read();
             prevDeltaTime = currDeltaTime;
         }
+
+        Server.getCentralServer().read();
+
+
 
         camera.zoom += KeyboardSystem.getScroll()*.02f;
         camera.position.set(mainPlayer.getX(), mainPlayer.getY(), 0);
@@ -82,7 +84,7 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
 
-        batch.setProjectionMatrix(camera.combined);
+            batch.setProjectionMatrix(camera.combined);
         batch.end();
         stage.act();
         stage.draw();

@@ -11,10 +11,11 @@ var game = gameScript.clientState;
 net.createServer(function (socket) {
 
   // Identify this client
-  socket.name = socket.remoteAddress + ":" + socket.remotePort 
+  socket.name = socket.remoteAddress + ":" + socket.remotePort
 
   // Put this new client in the list
   clients.push(socket);
+  socket.setNoDelay(true)
   socket.id = clients.indexOf(socket);
 
   // Send a nice welcome message and announce
@@ -27,26 +28,32 @@ net.createServer(function (socket) {
   	parsed['id'] = socket.id;
 	//console.log(parsed);
   	//update the game
-	//process.stdout.write(JSON.stringify(parsed));
   	game = gameScript.updateGame(parsed);
+
+	//process.stdout.write(JSON.stringify(parsed));
+	//process.stdout.write(JSON.stringify(game));
   });
 
   // Remove the client from the list when it leaves
   socket.on('end', function () {
     clients.splice(socket.id, 1);
   });
-  
-  var t = setInterval(broadcast,33);
+
+  var t = setInterval(broadcast,100);
   // Send a message to all clients
   function broadcast() {
     clients.forEach(function (client) {
+
     	var jsoned = JSON.stringify(game) + "\n";
-      	client.write(jsoned);
+
+    	//process.stdout.write(jsoned)
+
+      client.write(jsoned, "UTF-8")
 
       	// Log it to the server output too
     	//process.stdout.write(jsoned);
     });
-    
+
   }
 
 }).listen(5000);

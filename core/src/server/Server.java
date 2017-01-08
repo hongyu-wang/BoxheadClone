@@ -37,6 +37,7 @@ public class Server implements Disposable{
         client = Gdx.net.newClientSocket(Net.Protocol.TCP, "localhost", 5000, new SocketHints());
         out = client.getOutputStream();
         in = client.getInputStream();
+
         br = new BufferedReader(new InputStreamReader(in));
     }
 
@@ -49,8 +50,8 @@ public class Server implements Disposable{
     }
     public void read(){
         try{
-            String line= br.readLine();
-            System.out.println(line);
+            if (br.ready())
+                System.out.println(br.readLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
