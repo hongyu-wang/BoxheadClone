@@ -1,7 +1,8 @@
 var map = [10000, 10000];
 var mapRange = 10000;
 var angle = 0;
-var bulletSize = 20
+var bulletSize = 40
+var playerSize = 75
 var clientState = {
 	players : {
 		"player1ID": "blank",
@@ -23,9 +24,10 @@ function bulletObj(){
 
 function Player(ID)
 {
-    id = ID
-	position = [0, 0],
-	angle = 0	 
+    var id = ID
+	var position = [0, 0]
+	var angle = 0
+	var heatlh = 10	 
 }
 
 function initGame(gameStateDict){
@@ -44,7 +46,13 @@ function initGame(gameStateDict){
 	})
 
 	PLAYER1.position = [1000, 1000]
+	PLAYER1.angle = 90
+	PLAYER1.id = gameStateDict[id]
+	PLAYER1.heatlh = 10
+	PLAYER2.heatlh = 10
 	PLAYER2.position = [9000, 9000]
+	PLAYER2.id = gameStateDict[id2]
+	PLAYER2.angle = 270
 }
 
 function updateGame(gameStateDict){
@@ -62,52 +70,96 @@ function updateGame(gameStateDict){
 	}
 	if (keyPressed <= 2){
 
-		if (gameStateDict[up] === "true"){
+		if (gameStateDict["up"] === "true"){
 			// increase player pos by 1
 			angle = 90;
 		}
-		else if (gameStateDict[down] === "true"){
+		else if (gameStateDict["down"] === "true"){
 			// increase player pos by 1
 			angle = 270;
 		}
-		else if (gameStateDict[left] === "true"){
+		else if (gameStateDict["left"] === "true"){
 			// increase player pos by 1
             angle = 180
 
 		}
-		else if (gameStateDict[right] === "true"){
+		else if (gameStateDict["right"] === "true"){
 			// increase player pos by 1
 			angle = 0
 		}
 		if (keyPressed === 2){
-			if (gameStateDict[right] === "true" && gameStateDict[up] === "true"){
+			if (gameStateDict["right"] === "true" && gameStateDict["up"] === "true"){
 			  angle = 45;
 			}
-			else if (gameStateDict[right] === "true" && gameStateDict[down] === "true"){
+			else if (gameStateDict["right"] === "true" && gameStateDict["down"] === "true"){
 			  angle = 315;
 			}
-			else if (gameStateDict[up] === "true" && gameStateDict[left] === "true"){
+			else if (gameStateDict["up"] === "true" && gameStateDict["left"] === "true"){
 			  angle = 135;
 			}
-			else if (gameStateDict[left] === "true" && gameStateDict[down] === "true"){
+			else if (gameStateDict["left"] === "true" && gameStateDict["down"] === "true"){
 			  angle = 225;
 			}
-			else if (gameStateDict[right] === "true" && gameStateDict[up] === "true"){
+			else if (gameStateDict["right"] === "true" && gameStateDict["up"] === "true"){
 			  angle = 45;
 			}
 	   }
 	}
 	if (gameStateDict[space] === "true"){
 			var newBullet = new bulletObj()
-			newBullet.position = clientState.players[id].position
+			newBullet.position = clientState.players[gameStateDict["id"]].position
 			newBullet.angle = angle
 			clientState.bulletsOnScreen.push(newBullet)
 		}
 
 	moveBullet()
+
 	// collisions
-	// move
+	move(gameStateDict["id"])
 	return gameStateDict
+}
+
+function move(id)
+{
+	var playerPOS = clientState.players[id].position
+	if (clientState.players[id].angle === 90)
+	{
+		playerPOS[1] += playerSize;
+	}
+	else if (clientState.players[id].angle === 180)
+	{
+		playerPOS[0] -= playerSize;
+	}
+	else if (clientState.players[id].angle === 270)
+	{
+		playerPOS[1] -= playerSize;
+	}
+	else if (clientState.players[id].angle === 0)
+	{
+		playerPOS[0] += playerSize;
+	}
+	else if (clientState.players[id].angle === 45)
+	{
+		playerPOS[0] += playerSize;
+		playerPOS[1] += playerSize;
+	}
+	else if (clientState.players[id].angle === 135)
+	{
+		playerPOS[0] -= playerSize;
+		playerPOS[1] += playerSize
+	}
+	else if (clientState.players[id].angle === 225)
+	{
+		playerPOS[0] -= playerSize;
+		playerPOS[1] -= playerSize;
+	}
+	else if (clientState.players[id].angle === 180)
+	{
+		playerPOS[0] += playerSize;
+		playerPOS[1] -= playerSize;
+	}
+	clientState.players[id].position = playerPOS;
+
 }
 
 function moveBullet(){
@@ -161,12 +213,14 @@ function getBulletTravel(bullet)
 }
 
 
-var PLAYER1 = new Player("gameStateDict[id]")
+/*var PLAYER1 = new Player("gameStateDict[id]")
+PLAYER1.position = [1000, 9000]
+PLAYER1.angle = 90
 var PLAYER2 = new Player("gameStateDict[id2]")
 var bullet1 = new bulletObj()
 bullet1.position = [4,3]
-bullet1.angle = 90
-console.log(bullet1.position)
+bullet1.angle = 45
+console.log(PLAYER1.position)
 clientState = {
 	players : {
 		"gameStateDict[id]": PLAYER1,
@@ -175,7 +229,6 @@ clientState = {
 	bulletsOnScreen : [bullet1],
 	barriers : []
 }
+move("gameStateDict[id]")
 
-moveBullet()
-
-console.log(bullet1.position)
+console.log(PLAYER1.position)*/
