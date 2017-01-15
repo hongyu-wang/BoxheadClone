@@ -47,7 +47,7 @@ public class Server implements Disposable{
 
     }
     private Server(){
-        client = Gdx.net.newClientSocket(Net.Protocol.TCP, "localhost", 5000, new SocketHints());
+        client = Gdx.net.newClientSocket(Net.Protocol.TCP, "wolf.teach.cs.toronto.edu", 5000, new SocketHints());
         out = client.getOutputStream();
         in = client.getInputStream();
         json = new Json();
@@ -63,7 +63,7 @@ public class Server implements Disposable{
         try{
             out.write((str+"\n").getBytes());
         }catch(Exception ignored) {
- 
+
         }
     }
     public void read(){
