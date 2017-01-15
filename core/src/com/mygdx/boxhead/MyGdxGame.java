@@ -84,6 +84,7 @@ public class MyGdxGame extends ApplicationAdapter {
             }
         }
         for (BulletModel bullet : Server.getCentralServer().getBulletArrayModel().getBulletArray()){
+
             bulletSprite.setX(bullet.getX() - 20);
             bulletSprite.setX(bullet.getY() - 20);
             batch.draw(bulletSprite, bulletSprite.getX(), bulletSprite.getY());
@@ -91,14 +92,17 @@ public class MyGdxGame extends ApplicationAdapter {
 
         batch.setProjectionMatrix(camera.combined);
         batch.end();
+        stage.act();
+        stage.draw();
         sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setProjectionMatrix(camera.combined);
         for (TerrainModel terrainModel : Server.getCentralServer().getInitModel().getTerList()){
-            sr.setColor(1, 1, 1, 1);
+            sr.setColor(0, 0, 0, 1);
+
             sr.rect(terrainModel.getX(), terrainModel.getY(), terrainModel.getWidth(), terrainModel.getHeight());
         }
         sr.end();
-        stage.act();
-        stage.draw();
+
 	}
 	@Override
 	public void dispose () {
