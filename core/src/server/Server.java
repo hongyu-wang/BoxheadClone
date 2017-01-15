@@ -70,7 +70,6 @@ public class Server implements Disposable{
         try{
             if (br.ready()){
                 String line = br.readLine();
-                System.out.println(line);
 
                 if (initModel == null){
                     initModel = json.fromJson(InitModel.class, line);

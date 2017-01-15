@@ -1,13 +1,30 @@
 'use strict'
 
-var TerrainFile = require("./GameObjects/Terrain.js");
-
+var Player = require("./GameObjects/Player.js");
+var player1 = new Player(0);
+var player2 = new Player(1);
+var terrainFile= require("./GameObjects/Terrain.js");
+var allTerrain = terrainFile.initTerrain();
+var bulletList = [];
+var bulletListObj = {
+	bulletArray : []
+};
 module.exports= {
+	terList: allTerrain,
+	player1: player1,
+	player2: player2,
+	bulletList: bulletListObj,
 	updateGame : (json) =>{
-		var terrain = new TerrainFile.Terrain(0, 0, 5, 5);
-		console.log(JSON.stringify(terrain));
+		if (json.id == 0){
+			player1.move(json);
+		} else {
+			player2.move(json);
+		}
+
 	}
 }
+	
 
-module.exports.updateGame("");
+
+
 

@@ -14,7 +14,6 @@ import static com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP_PINGPONG;
  * Created by hongy on 1/7/2017.
  */
 public class Player extends SubActor {
-    private int id;
     private static final float MAX_HP = 10;
     private Vector2 dir;
     private float hp;
@@ -48,12 +47,15 @@ public class Player extends SubActor {
     public void act(float delta) {
         super.act(delta);
         stateTime += delta;
-        curFrame = new Sprite(animation.getKeyFrame(stateTime));
-
+        if (dir.len() == 0){
+            curFrame = new Sprite(animation.getKeyFrame(0.2f));
+        } else {
+            curFrame = new Sprite(animation.getKeyFrame(stateTime));
+        }
     }
 
 
-    public void updateFromModel(PlayerModel model) {
+    void updateFromModel(PlayerModel model) {
         this.setX(model.getX());
         this.setY(model.getY());
         this.dir = new Vector2(model.getDirx(), model.getDiry());

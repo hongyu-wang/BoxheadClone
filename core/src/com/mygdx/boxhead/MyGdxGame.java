@@ -26,11 +26,11 @@ import java.io.IOException;
 import java.security.Key;
 
 public class MyGdxGame extends ApplicationAdapter {
-    private float [] sizes ;
+
     private float currDeltaTime;
     private float prevDeltaTime;
     private Sprite bulletSprite;
-    private Texture background;
+
     private Texture bullet;
     private MyStage stage;
 	private OrthographicCamera camera;
@@ -42,29 +42,27 @@ public class MyGdxGame extends ApplicationAdapter {
 		KeyboardSystem.init();
         stage = new MyStage();
         camera = (OrthographicCamera) stage.getCamera();
-        background = new Texture("ground_texture888.jpg");
         bullet = new Texture("ShittyBullet.png");
         bulletSprite = new Sprite(bullet);
 	    batch = new SpriteBatch();
-
+        camera.zoom = 5;
         camera.viewportWidth = 640;
         camera.viewportHeight = 480;
         camera.translate(320, 240);
         camera.update();
         sr = new ShapeRenderer();
-        sizes = new float[]{0, background.getWidth(), background.getHeight(), -background.getWidth(), -background.getHeight()};
+
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		currDeltaTime += Gdx.graphics.getDeltaTime();
-        if (currDeltaTime - prevDeltaTime > 1/10f) {
+        if (currDeltaTime - prevDeltaTime > 1/5f) {
             Server.getCentralServer().write(KeyboardSystem.getJSon());
             prevDeltaTime = currDeltaTime;
         }
-
         Server.getCentralServer().read();
 
 
@@ -76,13 +74,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         batch.begin();
-        for (float i : sizes) {
-            for (float j : sizes) {
-                if (i != j || i == 0) {
-                    batch.draw(background, i, j);
-                }
-            }
-        }
+
         for (BulletModel bullet : Server.getCentralServer().getBulletArrayModel().getBulletArray()){
 
             bulletSprite.setX(bullet.getX() - 20);
@@ -107,7 +99,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		Server.getCentralServer().dispose();
-		background.dispose();
 		bullet.dispose();
 		sr.dispose();
 		stage.dispose();

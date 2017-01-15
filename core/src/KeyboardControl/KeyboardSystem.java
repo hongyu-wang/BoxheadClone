@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.mygdx.boxhead.MyGdxGame;
 import server.Model.ControlModel;
+import server.Server;
 
 /**
  * Created by hongy on 1/7/2017.
@@ -66,6 +67,7 @@ public class KeyboardSystem implements InputProcessor{
         if (keycode == 45){
             scroll = 1;
         }
+
         return false;
     }
 

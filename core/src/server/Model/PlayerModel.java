@@ -5,7 +5,7 @@ package server.Model;
  */
 public class PlayerModel{
     private float x, y, dirx, diry;
-    private int id, hp;
+    private int hp;
 
 
     public float getX() {
@@ -40,13 +40,6 @@ public class PlayerModel{
         this.diry = diry;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getHp() {
         return hp;
