@@ -1,14 +1,18 @@
 'use strict'
 
-var Player = require("./GameObjects/Player.js");
+var Player = require("./GameObjects/Player.js").PlayerConstructor;
 var player1 = new Player(0);
 var player2 = new Player(1);
 var terrainFile= require("./GameObjects/Terrain.js");
 var allTerrain = terrainFile.initTerrain();
-var bulletList = [];
+var array = require("./GameObjects/Player.js").bulletArray;
+
+
 var bulletListObj = {
-	bulletArray : []
+	bulletArray : array
 };
+
+
 module.exports= {
 	terList: allTerrain,
 	player1: player1,
@@ -21,8 +25,13 @@ module.exports= {
 			player2.move(json);
 		}
 
+		for (var i = 0; i < array.length; i ++){
+			array[i].update();
+		}
+
 	}
 }
+
 	
 
 

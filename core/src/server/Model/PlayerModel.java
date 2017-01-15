@@ -5,8 +5,8 @@ package server.Model;
  */
 public class PlayerModel{
     private float x, y, dirx, diry;
-    private int hp;
-
+    private int hp, bulletCD, id;
+    private boolean moving;
 
     public float getX() {
         return x;
@@ -47,5 +47,29 @@ public class PlayerModel{
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
+    public int getBulletCD() {
+        return bulletCD;
+    }
+
+    public void setBulletCD(int bulletCD) {
+        this.bulletCD = bulletCD;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -47,6 +47,7 @@ public class Server implements Disposable{
 
     }
     private Server(){
+        // wolf.teach.cs.toronto.edu
         client = Gdx.net.newClientSocket(Net.Protocol.TCP, "wolf.teach.cs.toronto.edu", 5000, new SocketHints());
         out = client.getOutputStream();
         in = client.getInputStream();
@@ -66,38 +67,35 @@ public class Server implements Disposable{
 
         }
     }
-    public void read(){
-        try{
-            if (br.ready()){
-                String line = br.readLine();
+    public void read() throws IOException {
 
-                if (initModel == null){
-                    initModel = json.fromJson(InitModel.class, line);
+        if (br.ready()){
+            String line = br.readLine();
+
+            if (initModel == null){
+                initModel = json.fromJson(InitModel.class, line);
+            } else {
+                if (cnt == 0 || cnt == 1){
+                    if (initModel.getId() == cnt)
+                        defaultPlayer = json.fromJson(PlayerModel.class, line);
+                    else
+                        enemyPlayer = json.fromJson(PlayerModel.class, line);
+                    cnt ++;
                 } else {
-                    if (cnt == 0 || cnt == 1){
-                        if (initModel.getId() == cnt)
-                            defaultPlayer = json.fromJson(PlayerModel.class, line);
-                        else
-                            enemyPlayer = json.fromJson(PlayerModel.class, line);
-                        cnt ++;
-                    } else {
-                        bulletArrayModel = json.fromJson(BulletArrayModel.class, line);
-                        cnt = 0;
-                    }
+                    bulletArrayModel = json.fromJson(BulletArrayModel.class, line);
+                    cnt = 0;
                 }
-
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
+
     }
 
 
     public InitModel getInitModel() {
         return initModel;
     }
-
 
     public PlayerModel getDefaultPlayer() {
         return defaultPlayer;
@@ -106,7 +104,6 @@ public class Server implements Disposable{
     public PlayerModel getEnemyPlayer() {
         return enemyPlayer;
     }
-
 
     public BulletArrayModel getBulletArrayModel() {
         return bulletArrayModel;

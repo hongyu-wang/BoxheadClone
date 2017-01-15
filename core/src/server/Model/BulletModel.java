@@ -5,8 +5,7 @@ package server.Model;
  * Created by hongy on 1/8/2017.
  */
 public class BulletModel {
-    private float x, y;
-    private int id;
+    private float id, x, y, dirx, diry;
 
     public float getX() {
         return x;
@@ -24,11 +23,27 @@ public class BulletModel {
         this.y = y;
     }
 
-    public int getId() {
+    public float getDirx() {
+        return dirx;
+    }
+
+    public void setDirx(float dirx) {
+        this.dirx = dirx;
+    }
+
+    public float getDiry() {
+        return diry;
+    }
+
+    public void setDiry(float diry) {
+        this.diry = diry;
+    }
+
+    public float getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(float id) {
         this.id = id;
     }
 }

@@ -3,6 +3,7 @@ package com.mygdx.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import server.Server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -12,11 +13,18 @@ import java.util.ArrayList;
 public class MyStage extends Stage {
     private Server server;
     private Player mainPlayer;
+
+
+
     private Player enemyPlayer;
 
     public MyStage(){
         server = Server.getCentralServer();
-        server.read();
+        try {
+            server.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mainPlayer = new Player();
         enemyPlayer = new Player();
 
@@ -35,7 +43,9 @@ public class MyStage extends Stage {
         }
 
     }
-
+    public Player getEnemyPlayer() {
+        return enemyPlayer;
+    }
     public Player getMainPlayer() {
         return mainPlayer;
     }

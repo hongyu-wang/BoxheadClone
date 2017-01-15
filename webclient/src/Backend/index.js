@@ -14,7 +14,6 @@ net.createServer(function (socket) {
 
 // Identify this client
     socket.name = socket.remoteAddress + ":" + socket.remotePort
-    console.log(socket.name);
 // Put this new client in the list
     clients.push(socket);
     socket.setNoDelay(true)
