@@ -14,7 +14,7 @@ net.createServer(function (socket) {
 
 // Identify this client
     socket.name = socket.remoteAddress + ":" + socket.remotePort
-
+    console.log(socket.name);
 // Put this new client in the list
     clients.push(socket);
     socket.setNoDelay(true)
@@ -30,6 +30,7 @@ net.createServer(function (socket) {
     // Handle incoming messages from clients.
     socket.on('data', function (data) {
         try {
+
             var parsed = JSON.parse(data);
             parsed['id'] = socket.id;
             if (socket.id == 0){
@@ -74,7 +75,7 @@ net.createServer(function (socket) {
     var t = setInterval(broadcast,100);
     if (player1Input != undefined)
         var u = setInterval(gameScript.updateGame(player1Input), 100);
-    
+
     if (player2Input != undefined)
         var v = setInterval(gameScript.updateGame(player2Input), 100);
     // Send a message to all clients

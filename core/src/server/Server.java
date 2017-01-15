@@ -63,7 +63,7 @@ public class Server implements Disposable{
         try{
             out.write((str+"\n").getBytes());
         }catch(Exception ignored) {
-
+ 
         }
     }
     public void read(){
