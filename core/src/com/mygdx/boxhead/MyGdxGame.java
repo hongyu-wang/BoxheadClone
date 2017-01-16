@@ -26,46 +26,68 @@ import java.io.IOException;
 import java.security.Key;
 
 public class MyGdxGame extends ApplicationAdapter {
-    private float [] sizes ;
+
     private float currDeltaTime;
     private float prevDeltaTime;
-    private Sprite bulletSprite;
-    private Texture background;
-    private Texture bullet;
+
     private MyStage stage;
 	private OrthographicCamera camera;
     private ShapeRenderer sr;
     private SpriteBatch batch;
 
-	@Override
+    @Override
 	public void create () {
 		KeyboardSystem.init();
         stage = new MyStage();
         camera = (OrthographicCamera) stage.getCamera();
-        background = new Texture("ground_texture888.jpg");
-        bullet = new Texture("ShittyBullet.png");
-        bulletSprite = new Sprite(bullet);
 	    batch = new SpriteBatch();
-
+        camera.zoom = 5;
         camera.viewportWidth = 640;
         camera.viewportHeight = 480;
         camera.translate(320, 240);
         camera.update();
         sr = new ShapeRenderer();
-        sizes = new float[]{0, background.getWidth(), background.getHeight(), -background.getWidth(), -background.getHeight()};
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+            while (true) {
+                try {
+                    Server.getCentralServer().read();
+                } catch (Exception e) {
+                    break;
+                }
+            }
+            }
+        });
+        thread1.start();
+
+        Thread thread2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+            while (true) {
+                try {
+                    Server.getCentralServer().write(KeyboardSystem.getJSon());
+                } catch (Exception e) {
+                    break;
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            }
+        });
+	    thread2.start();
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(.1f, .1f, .1f, .1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		currDeltaTime += Gdx.graphics.getDeltaTime();
-        if (currDeltaTime - prevDeltaTime > 1/10f) {
-            Server.getCentralServer().write(KeyboardSystem.getJSon());
-            prevDeltaTime = currDeltaTime;
-        }
 
-        Server.getCentralServer().read();
+
 
 
 
@@ -76,37 +98,54 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
         batch.begin();
-        for (float i : sizes) {
-            for (float j : sizes) {
-                if (i != j || i == 0) {
-                    batch.draw(background, i, j);
-                }
-            }
-        }
-        for (BulletModel bullet : Server.getCentralServer().getBulletArrayModel().getBulletArray()){
-            bulletSprite.setX(bullet.getX() - 20);
-            bulletSprite.setX(bullet.getY() - 20);
-            batch.draw(bulletSprite, bulletSprite.getX(), bulletSprite.getY());
-        }
+
+
 
         batch.setProjectionMatrix(camera.combined);
         batch.end();
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        for (TerrainModel terrainModel : Server.getCentralServer().getInitModel().getTerList()){
-            sr.setColor(1, 1, 1, 1);
-            sr.rect(terrainModel.getX(), terrainModel.getY(), terrainModel.getWidth(), terrainModel.getHeight());
-        }
-        sr.end();
         stage.act();
         stage.draw();
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setProjectionMatrix(camera.combined);
+        sr.setColor(1, 0, 1, 1);
+        sr.rect(
+                stage.getMainPlayer().getX() - 60,
+                stage.getMainPlayer().getY() + 100,
+                stage.getMainPlayer().getHp()/10 * 120,
+                10
+        );
+        sr.setColor(0, 1, 1, 1);
+        sr.rect(
+                stage.getEnemyPlayer().getX() - 60,
+                stage.getEnemyPlayer().getY() + 100,
+                stage.getEnemyPlayer().getHp()/10 * 120,
+                10
+        );
+
+
+        sr.setColor(0, 0, 0, 1);
+        for (TerrainModel terrainModel : Server.getCentralServer().getInitModel().getTerList()){
+            sr.rect(terrainModel.getX(), terrainModel.getY(), terrainModel.getWidth(), terrainModel.getHeight());
+        }
+
+        for (BulletModel bullet : Server.getCentralServer().getBulletArrayModel().getBulletArray()){
+            if (bullet.getId() == stage.getMainPlayer().getId())
+                sr.setColor(0, 1, 0, 1);
+            else {
+                sr.setColor(1, 0, 0, 1);
+            }
+            sr.circle(bullet.getX(), bullet.getY(), 10);
+
+        }
+        sr.end();
+
 	}
 	@Override
 	public void dispose () {
 		Server.getCentralServer().dispose();
-		background.dispose();
-		bullet.dispose();
 		sr.dispose();
 		stage.dispose();
+
 
 	}
 

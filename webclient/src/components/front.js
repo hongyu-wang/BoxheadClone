@@ -1,3 +1,4 @@
+
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Test from './button';
@@ -60,7 +61,7 @@ export default class Landing extends React.Component {
  				<Paper className={Styles.instructions}>
  					<p>Herein lies a clone of the world renowned game of Boxhead.</p>
 
- 					<p>Do what you will, but remember, the a	Prrow keys are your move buttons, and spacebar is shoot.</p>
+ 					<p>Do what you will, but remember, the arrow keys are your move buttons, and spacebar is shoot.</p>
 
  					<p>Download the game, and press 'Start' to queue up and find an opponent to play against.</p>
  				</Paper>
